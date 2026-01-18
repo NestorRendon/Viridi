@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Title — Artist Name</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #b0b0b0;
+            --accent: #d4d4d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grain texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 9999;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Typography */
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover effects */
+        a, .hover-link {
+            transition: opacity 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        a:hover, .hover-link:hover {
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+        }
+
+        /* Cursor */
+        body {
+            cursor: default;
+        }
+
+        a, .hover-link {
+            cursor: pointer;
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Section spacing */
+        section {
+            padding: 8rem 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            section {
+                padding: 10rem 3rem;
+            }
+        }
+
+        /* Asymmetrical layout helper */
+        .asymmetric-left {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            .asymmetric-left {
+                margin-left: 8%;
+            }
+        }
+
+        .asymmetric-right {
+            margin-right: 0;
+        }
+
+        @media (min-width: 768px) {
+            .asymmetric-right {
+                margin-right: 12%;
+            }
+        }
+
+        /* Track list styling */
+        .track-item {
+            border-bottom: 1px solid rgba(232, 232, 232, 0.1);
+            padding: 1.5rem 0;
+            transition: padding-left 0.3s ease;
+        }
+
+        .track-item:hover {
+            padding-left: 1rem;
+        }
+
+        /* Video within tracklist */
+        .track-video {
+            margin: 3rem 0;
+            max-width: 100%;
+        }
+
+        .track-video .video-container {
+            padding-bottom: 56.25%;
+        }
+
+        /* Minimal underline */
+        .underline-minimal {
+            text-decoration: underline;
+            text-decoration-color: rgba(232, 232, 232, 0.3);
+            text-underline-offset: 0.3em;
+            text-decoration-thickness: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center fade-in">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light mb-8 tracking-tight leading-tight">
+                Viridi Plantæ
+            </h1>
+            <p class="font-sans text-sm md:text-base mb-12 tracking-widest uppercase letter-spacing-2 opacity-70">
+                David Otraparte
+            </p>
+            <p class="font-serif text-lg md:text-xl lg:text-2xl italic max-w-2xl mx-auto opacity-90 leading-relaxed">
+Of the nature of love and loss.            </p>
+        </div>
+    </section>
+
+
+
+    <!-- Tracklist -->
+    <section class="fade-in">
+        <div class="max-w-4xl mx-auto asymmetric-left">
+            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Pieces</h2>
+            <div class="space-y-0">
+                <div class="track-item">
+                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">I</span>
+                    <span class="font-serif text-lg md:text-xl ml-4">bichito de paramo</span>
+                </div>
+                <div class="track-item">
+                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">II</span>
+                    <span class="font-serif text-lg md:text-xl ml-4">costa azurra</span>
+                </div>
+                
+                <!-- Video 1 -->
+                <div class="track-video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://drive.google.com/file/d/1jV0x8EiqOuhIH5Q4-g8Rtqx0Ru8uQuH0/preview" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">III</span>
+                    <span class="font-serif text-lg md:text-xl ml-4">ondas del arbaleno</span>
+                </div>
+                <div class="track-item">
+                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">IV</span>
+                    <span class="font-serif text-lg md:text-xl ml-4">Dejar</span>
+                </div>
+                
+                <!-- Video 2 -->
+                <div class="track-video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/VIDEO_ID_2?autoplay=0&mute=1&controls=1&modestbranding=1" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">V</span>
+                    <span class="font-serif text-lg md:text-xl ml-4">Viridi Plantæ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Album Description -->
+    <section class="fade-in">
+        <div class="max-w-3xl mx-auto asymmetric-right">
+            <h2 class="font-serif text-3xl md:text-4xl mb-8 font-light">About</h2>
+            <div class="font-sans text-base md:text-lg leading-relaxed opacity-90 space-y-4">
+                <p>
+                    Love and loss. Luz en hierba, Dolor y nel fratempo alcuni arcobaleni, fare l'amore and loss it.
+                </p>
+                <p>
+                    Recorded over the course of 2024 in the fog forest of Santa Elena Medellin, Colombia.
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- Merch -->
+    <section class="fade-in">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Merch</h2>
+            <div class="font-sans text-base md:text-lg space-y-6 opacity-90">
+                <p>Limited edition vinyl available</p>
+                <p>Art print bundle</p>
+                <p class="mt-8">
+                    <a href="https://bandcamp.com/artistname" target="_blank" rel="noopener noreferrer" class="underline-minimal hover-link">
+                        Purchase on Bandcamp
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="fade-in">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Contact</h2>
+            <div class="font-sans text-base md:text-lg opacity-90">
+                <p>
+                    <a href="mailto:artist@example.com" class="underline-minimal hover-link">
+                        artist@example.com
+                    </a>
+                </p>
+                <p class="mt-4">
+                    <a href="https://instagram.com/artistname" target="_blank" rel="noopener noreferrer" class="underline-minimal hover-link">
+                        Instagram
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fade-in border-t border-opacity-10 border-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="font-sans text-xs md:text-sm opacity-50 tracking-wide">
+                <span>2026</span>
+                <span class="mx-2">—</span>
+                <span>David Otraparte</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Fade-in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Trigger initial visibility for landing section
+        document.addEventListener('DOMContentLoaded', () => {
+            const landing = document.querySelector('section');
+            if (landing) {
+                setTimeout(() => {
+                    landing.classList.add('visible');
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
