@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Album Title — Artist Name</title>
-    
-    <!-- Google Fonts -->
+    <title>Nestor Rendon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@300;400&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --text-primary: #e8e8e8;
-            --text-secondary: #b0b0b0;
-            --accent: #d4d4d4;
+            --text: rgb(10, 10, 10);
+            --bg: #ffffff;
+            --rule: rgba(10, 10, 10, 0.12);
         }
 
         * {
@@ -32,328 +27,605 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: Amiri, Times, serif, HiraMinProN-W3, "ヒラギノ明朝 Pro W3", メイリオ, Meiryo, serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 17px;
+            line-height: 25px;
+            color: var(--text);
+            background-color: var(--bg);
+            min-height: 100vh;
         }
 
-        /* Grain texture */
-        body::before {
-            content: '';
-            position: fixed;
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-color: var(--rule);
+            text-underline-offset: 0.2em;
+            text-decoration-thickness: 1px;
+        }
+
+        a:hover {
+            opacity: 0.65;
+        }
+
+        .site-header {
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.03;
-            z-index: 9999;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 40;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--rule);
         }
 
-        /* Typography */
-        .font-serif {
-            font-family: 'Cormorant Garamond', serif;
+        .site-logo {
+            display: block;
+            flex-shrink: 0;
+            text-decoration: none;
         }
 
-        .font-sans {
-            font-family: 'Inter', sans-serif;
+        .site-logo img {
+            height: 75px;
+            width: auto;
+            max-width: min(300px, 75vw);
+            display: block;
         }
 
-        /* Fade-in animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hover effects */
-        a, .hover-link {
-            transition: opacity 0.3s ease, letter-spacing 0.3s ease;
-        }
-
-        a:hover, .hover-link:hover {
-            opacity: 0.6;
-            letter-spacing: 0.05em;
-        }
-
-        /* Cursor */
-        body {
-            cursor: default;
-        }
-
-        a, .hover-link {
+        .nav-tab {
             cursor: pointer;
+            border: none;
+            background: none;
+            font: inherit;
+            color: inherit;
+            padding: 0.15rem 0;
+            text-decoration: none;
+            text-underline-offset: 0.2em;
         }
 
-        /* Video container */
-        .video-container {
-            position: relative;
+        .nav-tab:hover {
+            opacity: 0.65;
+        }
+
+        .nav-tab[aria-current="true"] {
+            text-decoration: underline;
+            text-decoration-color: var(--text);
+        }
+
+        .panel {
+            display: none;
+            padding: 3rem 1.5rem 5rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel h1 {
+            font-size: 1.75rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .panel h2 {
+            font-size: 1.15rem;
+            font-weight: 300;
+            margin: 2.25rem 0 0.75rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .panel p + p {
+            margin-top: 1rem;
+        }
+
+        .portrait {
+            max-width: 700px;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            overflow: hidden;
+            height: auto;
+            margin: 1.5rem 0 2rem;
+            display: block;
         }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Section spacing */
-        section {
-            padding: 8rem 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            section {
-                padding: 10rem 3rem;
-            }
-        }
-
-        /* Asymmetrical layout helper */
-        .asymmetric-left {
-            margin-left: 0;
-        }
-
-        @media (min-width: 768px) {
-            .asymmetric-left {
-                margin-left: 8%;
-            }
-        }
-
-        .asymmetric-right {
-            margin-right: 0;
-        }
-
-        @media (min-width: 768px) {
-            .asymmetric-right {
-                margin-right: 12%;
-            }
-        }
-
-        /* Track list styling */
         .track-item {
-            border-bottom: 1px solid rgba(232, 232, 232, 0.1);
-            padding: 1.5rem 0;
-            transition: padding-left 0.3s ease;
-        }
-
-        .track-item:hover {
-            padding-left: 1rem;
-        }
-
-        /* Video within tracklist */
-        .track-video {
-            margin: 3rem 0;
-            max-width: 100%;
+            border-bottom: 1px solid var(--rule);
+            padding: 1.25rem 0;
         }
 
         .track-video .video-container {
+            position: relative;
+            width: 100%;
             padding-bottom: 56.25%;
+            overflow: hidden;
+            margin: 1.5rem 0 2rem;
         }
 
-        /* Minimal underline */
-        .underline-minimal {
-            text-decoration: underline;
-            text-decoration-color: rgba(232, 232, 232, 0.3);
-            text-underline-offset: 0.3em;
-            text-decoration-thickness: 1px;
+        .track-video iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        #blog-article {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--rule);
+        }
+
+        #blog-article h1,
+        #blog-article h2,
+        #blog-article h3 {
+            font-weight: 300;
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        #blog-article p + p {
+            margin-top: 1rem;
+        }
+
+        #blog-article ul {
+            margin: 0.75rem 0 0.75rem 1.25rem;
+        }
+
+        .pub-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .spotify-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0 2rem;
+            max-width: 52rem;
+        }
+
+        .spotify-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid var(--rule);
+            padding: 0.65rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .spotify-card:hover {
+            opacity: 0.78;
+        }
+
+        .spotify-card-cover {
+            display: block;
+            aspect-ratio: 1;
+            background: rgba(10, 10, 10, 0.04);
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+
+        .spotify-card-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .spotify-grid--single {
+            max-width: 20rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+
+        .spotify-card-title {
+            font-size: 15px;
+            line-height: 22px;
+        }
+
+        footer {
+            border-top: 1px solid var(--rule);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 15px;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-    <!-- Landing Section -->
-    <section class="min-h-screen flex flex-col justify-center items-center text-center fade-in">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light mb-8 tracking-tight leading-tight">
-                Viridi Plantæ
-            </h1>
-            <p class="font-sans text-sm md:text-base mb-12 tracking-widest uppercase letter-spacing-2 opacity-70">
-                David Otraparte
+    <header class="site-header">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <a href="#main" class="site-logo" id="logo-home" aria-label="Main" data-tab="main">
+                <img src="assets/logo.jpg" width="700" height="300" alt="">
+            </a>
+            <nav class="flex flex-wrap gap-x-5 gap-y-2 sm:justify-end sm:max-w-xl" aria-label="Sections">
+                <button type="button" class="nav-tab" data-tab="main">Main</button>
+                <button type="button" class="nav-tab" data-tab="datascience">Datascience & AI</button>
+                <button type="button" class="nav-tab" data-tab="ecoacoustics">Ecoacoustics</button>
+                <button type="button" class="nav-tab" data-tab="music">Music & Arts</button>
+                <button type="button" class="nav-tab" data-tab="blog">Blog &amp; Publications</button>
+                <button type="button" class="nav-tab" data-tab="contact">Contact</button>
+                <button type="button" class="nav-tab" data-tab="others">Others</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="main" class="panel active" aria-labelledby="main-heading">
+            <h1 id="main-heading">About</h1>
+            <p>
+                I am <strong>Nestor David Rendon, PhD</strong> — AI researcher and Artist. I believe that <strong>everything is connected</strong> and that <strong>everything is in motion</strong>.
+                Each element belongs to others to some degree—along lines explored in <strong>fuzzy logic</strong>, where membership is partial rather than absolute.
+                Words and sounds are abstract building blocks of languages, carried by waves and electromagnetic fields; the whole picture is dynamic,
+                and every thing belongs to others in larger or smaller measure.
             </p>
-            <p class="font-serif text-lg md:text-xl lg:text-2xl italic max-w-2xl mx-auto opacity-90 leading-relaxed">
-       Love and loss.            </p>
-        </div>
-    </section>
-
-
-
-    <!-- Tracklist -->
-    <section class="fade-in">
-        <div class="max-w-4xl mx-auto asymmetric-left">
-            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Pieces</h2>
-            <div class="space-y-0">
-                <div class="track-item">
-                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">I</span>
-                    <span class="font-serif text-lg md:text-xl ml-4">Cosas buenas</span>
-                </div>
-                <!-- Video 1 -->
-                <div class="track-video">
-                    <div class="video-container">
-                        <iframe 
-                            src="https://drive.google.com/file/d/1jV0x8EiqOuhIH5Q4-g8Rtqx0Ru8uQuH0/view" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-
-
-                <div class="track-item">
-                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">II</span>
-                    <span class="font-serif text-lg md:text-xl ml-4">costa azurra</span>
-                </div>
-                
-                <!-- Video 1 -->
-                <div class="track-video">
-                    <div class="video-container">
-                        <iframe 
-                            src="https://drive.google.com/file/d/1jV0x8EiqOuhIH5Q4-g8Rtqx0Ru8uQuH0/preview" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-
-                <div class="track-item">
-                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">III</span>
-                    <span class="font-serif text-lg md:text-xl ml-4">ondas del arbaleno</span>
-                </div>
-                    <!-- Video 1 -->
-                    <div class="track-video">
-                        <div class="video-container">
-                            <iframe 
-                                src="http://drive.google.com/file/d/1aE0-ZhaZ-POk-d26Gk0At77Yfh6CQX-T/view" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                <div class="track-item">
-                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">IV</span>
-                    <span class="font-serif text-lg md:text-xl ml-4">Dejar</span>
-                </div>
-                
-                <!-- Video 2 -->
-                <div class="track-video">
-                    <div class="video-container">
-                        <iframe 
-                            src="https://drive.google.com/file/d/1WkUDj3wSiQVF5BILheCZPXpWxAMpmWoB/view" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-
-                <div class="track-item">
-                    <span class="font-sans text-sm md:text-base opacity-70 tracking-wide">V</span>
-                    <span class="font-serif text-lg md:text-xl ml-4">Viridi Plantæ</span>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Album Description -->
-    <section class="fade-in">
-        <div class="max-w-3xl mx-auto asymmetric-right">
-            <h2 class="font-serif text-3xl md:text-4xl mb-8 font-light">About</h2>
-            <div class="font-sans text-base md:text-lg leading-relaxed opacity-90 space-y-4">
-                <p>
-                    Love and loss.  Dolor y nel fratempo alcuni arcobaleni.
-                </p>
-                <p>
-                    Recorded over the course of 2024 in the fog forest of Santa Elena Medellin, Colombia.
-                </p>
-            </div>
-        </div>
-    </section>
-    <!-- Merch -->
-    <section class="fade-in">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Merch</h2>
-            <div class="font-sans text-base md:text-lg space-y-6 opacity-90">
-                <p>Limited edition vinyl available</p>
-                <p>Art print bundle</p>
-                <p class="mt-8">
-                    <a href="https://bandcamp.com/artistname" target="_blank" rel="noopener noreferrer" class="underline-minimal hover-link">
-                        Purchase on Bandcamp
-                    </a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="fade-in">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-serif text-3xl md:text-4xl mb-12 font-light">Contact</h2>
-            <div class="font-sans text-base md:text-lg opacity-90">
-                <p>
-                    <a href="mailto:artist@example.com" class="underline-minimal hover-link">
-                        @DavidOtraparte
-                    </a>
-                </p>
-                <p class="mt-4">
-                    <a href="https://instagram.com/artistname" target="_blank" rel="noopener noreferrer" class="underline-minimal hover-link">
-                        Instagram
-                    </a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="fade-in border-t border-opacity-10 border-white py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <p class="font-sans text-xs md:text-sm opacity-50 tracking-wide">
-                <span>2026</span>
-                <span class="mx-2">—</span>
-                <span>David Otraparte</span>
+            <p>
+                From an early age I loved exploring and contemplating these rhythms of nature. As I grew older, I came to see them as
+                <strong>hidden patterns</strong> waiting to be uncovered. The curiosity to understand how things work, and the pleasure of sensing them,
+                are what drive my path.
             </p>
-        </div>
+            <p>
+                On one side, I strongly believe in <strong>science</strong> and apply it to grasp how the world is made.
+                My path in engineering and artificial intelligence follows that principle: <strong>understanding complex systems</strong> and turning that understanding into tangible solutions.
+                On the other, <strong>art</strong> has let me meet nature not only through reason but through feeling and contemplation.
+                In Johann Wolfgang von Goethe’s words: “Art is the mediator of the ineffable; science, its interpreter.”
+            </p>
+            <p>
+                Here I bring together the <strong>science and art projects</strong> I have been part of—to share some of my questions and trajectories,
+                in case friends or collaborators want to walk together on paths of discovery and of looking closely at the world.
+                You can browse parallel strands of that work in the tabs — <a href="#datascience" data-tab="datascience">Datascience</a>,
+                <a href="#ecoacoustics" data-tab="ecoacoustics">Ecoacoustics</a> and bioacoustics,
+                <a href="#music" data-tab="music">Music</a>,
+                <a href="#blog" data-tab="blog">Blog &amp; Publications</a> (including a readable <strong>CV summary</strong> you can open from the list),
+                <a href="#contact" data-tab="contact">Contact</a>,
+                and <a href="#others" data-tab="others">Others</a>.
+            </p>
+            <img class="portrait" src="assets/potrait.JPG" alt="Portrait of Nestor Rendon" width="560" height="700">
+            <p>
+                <a href="Nestor_Rendon_AI_Data_Science.pdf" download>Download CV (PDF)</a>
+                — full document: <cite>Nestor_Rendon_AI_Data_Science.pdf</cite> (same file as in this repository).
+            </p>
+        </section>
+
+        <section id="datascience" class="panel" aria-labelledby="ds-heading">
+            <h1 id="ds-heading">Datascience & AI</h1>
+            <p>
+                I am <strong>Nestor David Rendon, PhD</strong> — AI researcher and Artist with training in data science and statistical modeling,
+                living in <strong>Lugano, Switzerland</strong>. 
+                
+                I work on modular ML pipelines, conversational agents, LLM fine-tuning,
+                and reliable deployment in production, with a strong thread in <strong>unsupervised learning for audio and soundscapes</strong>,
+                deep learning for vision, and modeling of high-dimensional data. I care about software that stays understandable as
+                models and teams grow: clear boundaries between components, reproducible experiments, and systems that people can maintain.
+            </p>
+            <p>
+                I am an <strong>AI researcher</strong> with a PhD in data science and statistical modeling (University of Antioquia, 2024, <em>cum laude</em>).
+                Day to day I focus on <strong>modular ML pipelines</strong>, <strong>conversational agents</strong>, <strong>LLM fine-tuning</strong>,
+                and running models reliably in production (including on <strong>AWS</strong> and <strong>GCP</strong>), with attention to monitoring,
+                containerization, and disciplined version control.
+            </p>
+            <p>
+                Technically I work across <strong>Python</strong> (advanced), <strong>C++</strong>, <strong>R</strong>, <strong>SQL</strong>, and <strong>Bash</strong>;
+                frameworks such as <strong>PyTorch</strong>, <strong>TensorFlow</strong>, <strong>FastAPI</strong>, <strong>scikit-learn</strong>, <strong>OpenCV</strong>, and <strong>pytest</strong>;
+                and themes like deep learning for vision, unsupervised learning, statistical modeling, clustering, benchmarking, and documentation.
+                Current research interests include <strong>software architectures for multi-agent systems</strong> and integrating LLMs into modular, maintainable systems.
+            </p>
+            <p>
+                Since 2020 I have been a <strong>vision engineer / data scientist at xFarm Technologies</strong> (Switzerland), building conversational agents
+                and deep learning components for large-scale agricultural monitoring, from ingestion and preprocessing through training, validation, and deployment.
+            </p>
+        </section>
+
+        <section id="ecoacoustics" class="panel" aria-labelledby="eco-heading">
+            <h1 id="eco-heading">Ecoacoustics &amp; bioacoustics</h1>
+            <p>
+                During my PhD at the <strong>University of Antioquia</strong> I developed <strong>unsupervised methodologies for soundscape analysis</strong>,
+                including internal clustering validation based on <strong>Fréchet distance</strong>, and modular experimental frameworks for
+                <strong>geospatial, audio, and time-series</strong> data at scale. Related work continued at the <strong>Laboratoire MIA</strong> (France, 2022–2023),
+                where I built benchmarking tools and ML pipelines oriented to <strong>ecoacoustic</strong> datasets.
+            </p>
+            <p>
+                Applied threads include <strong>rain detection from acoustic recordings</strong> (Colombia de Colores / IES, 2017–2020) and broader statistical
+                modeling of high-dimensional environmental data. Selected papers are linked under <a href="#blog" data-tab="blog">Blog &amp; Publications</a>.
+            </p>
+            <h2>Representative publications</h2>
+            <p>
+                <em>Letting Ecosystems Speak for Themselves</em> — mapping landscape acoustic heterogeneity (<em>Environmental Modelling &amp; Software</em>, 2025);
+                uncertainty-aware clustering validation (<em>Engineering Applications of Artificial Intelligence</em>, 2023);
+                automatic acoustic heterogeneity identification (<em>Ecological Indicators</em>, 2022).
+            </p>
+        </section>
+
+        <section id="music" class="panel" aria-labelledby="music-heading">
+            <h1 id="music-heading">Music</h1>
+
+            <h2>Cosas Simples — Dav</h2>
+            <p>This album will come the 7 of May  2026. Produced over the course of 2024 and 2025 in the fog forest of Santa Elena Medellín (Colombia) and Lugano (Switzerland) along with the label https://eter-lab.net/ediciones/.</p>
+
+
+            <h2>Soundcloud — Dav</h2>
+            <p><a href="https://soundcloud.com/dav676" target="_blank" rel="noopener noreferrer">https://soundcloud.com/dav676</a></p>
+
+
+
+
+            <h2>Corriendo</h2>
+            <p>An emo and math rock project in Medellín</p>
+            <div class="spotify-grid" aria-label="Corriendo releases on Spotify">
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/5Y0YPZSsHCBppYFRRRQXuQ" data-spotify-oembed="https://open.spotify.com/album/5Y0YPZSsHCBppYFRRRQXuQ" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Entre Abril y Mayo</span>
+                </a>
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/30YdrKCtruUOxChE96KDFJ" data-spotify-oembed="https://open.spotify.com/album/30YdrKCtruUOxChE96KDFJ" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Domingo</span>
+                </a>
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/2PbgzSvLi7z46n6WKiL4kK" data-spotify-oembed="https://open.spotify.com/album/2PbgzSvLi7z46n6WKiL4kK" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Omelette du fromage</span>
+                </a>
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/3PIbnq7lJMxhQisqATXXgd" data-spotify-oembed="https://open.spotify.com/album/3PIbnq7lJMxhQisqATXXgd" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Yvette se fue</span>
+                </a>
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/74s1lnDnhjzuDdK3LovTXs" data-spotify-oembed="https://open.spotify.com/album/74s1lnDnhjzuDdK3LovTXs" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Abajo la tarea</span>
+                </a>
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/album/45xGxDOs22krlmSnwBOUAH" data-spotify-oembed="https://open.spotify.com/album/45xGxDOs22krlmSnwBOUAH" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">La fiesta de los tiempos siniestros</span>
+                </a>
+            </div>
+
+            <h2>Mina Via Flores</h2>
+            <p>Indie and bedroom pop</p>
+            <div class="spotify-grid spotify-grid--single" aria-label="Mina Via Flores on Spotify">
+                <a class="spotify-card" href="https://open.spotify.com/intl-it/artist/3tr60DsDlegzYXXe0SafY9" data-spotify-oembed="https://open.spotify.com/artist/3tr60DsDlegzYXXe0SafY9" target="_blank" rel="noopener noreferrer">
+                    <span class="spotify-card-cover"></span>
+                    <span class="spotify-card-title">Mina Via Flores — artist</span>
+                </a>
+            </div>
+
+
+            <h2>Pieces</h2>
+            <div>
+                <div class="track-item">
+                    <span class="opacity-70 tracking-wide text-[15px]">I</span>
+                    <span class="ml-3">Cosas buenas</span>
+                </div>
+                <div class="track-video">
+                    <div class="video-container">
+                        <iframe title="Cosas buenas" src="https://drive.google.com/file/d/1jV0x8EiqOuhIH5Q4-g8Rtqx0Ru8uQuH0/preview" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <span class="opacity-70 tracking-wide text-[15px]">II</span>
+                    <span class="ml-3">costa azurra</span>
+                </div>
+
+
+                <div class="track-item">
+                    <span class="opacity-70 tracking-wide text-[15px]">III</span>
+                    <span class="ml-3">ondas del arbaleno</span>
+                </div>
+                <div class="track-video">
+                    <div class="video-container">
+                        <iframe title="ondas del arbaleno" src="https://drive.google.com/file/d/1aE0-ZhaZ-POk-d26Gk0At77Yfh6CQX-T/preview" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <span class="opacity-70 tracking-wide text-[15px]">IV</span>
+                    <span class="ml-3">Dejar</span>
+                </div>
+                <div class="track-video">
+                    <div class="video-container">
+                        <iframe title="Dejar" src="https://drive.google.com/file/d/1WkUDj3wSiQVF5BILheCZPXpWxAMpmWoB/preview" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="track-item">
+                    <span class="opacity-70 tracking-wide text-[15px]">V</span>
+                    <span class="ml-3">Viridi Plantæ</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="panel" aria-labelledby="blog-heading">
+            <h1 id="blog-heading">Blog &amp; Publications</h1>
+
+            <h2>Publications</h2>
+            <ul class="pub-list list-none pl-0">
+                <li>
+                    Rendon et al. (2025).
+                    <em>Letting Ecosystems Speak for Themselves: An Unsupervised Methodology for Mapping Landscape Acoustic Heterogeneity</em>.
+                    <em>Environmental Modelling &amp; Software</em>.
+                    <a href="https://doi.org/10.1016/j.envsoft.2025.106373" target="_blank" rel="noopener noreferrer">DOI</a>
+                    ·
+                    <a href="https://hal.science/hal-04961795v1" target="_blank" rel="noopener noreferrer">HAL</a>
+                </li>
+                <li>
+                    Rendon et al. (2023).
+                    <em>Uncertainty Clustering Internal Validity Assessment using Fréchet Distance</em>.
+                    <em>Engineering Applications of Artificial Intelligence</em>.
+                    <a href="https://www.sciencedirect.com/science/article/pii/S0952197623008199" target="_blank" rel="noopener noreferrer">ScienceDirect</a>
+                </li>
+                <li>
+                    Rendon et al. (2022).
+                    <em>Automatic Acoustic Heterogeneity Identification</em>.
+                    <em>Ecological Indicators</em>.
+                    <a href="https://scholar.google.com/scholar?q=Automatic+Acoustic+Heterogeneity+Identification+Rendon" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                </li>
+            </ul>
+            <p>
+                PhD thesis (PDF):
+                <a href="https://drive.google.com/file/d/1JF-qFjJJAmMfALrwNTy0mNbJbRv53Uj7/view" target="_blank" rel="noopener noreferrer">Google Drive</a>.
+                More listings:
+                <a href="https://scholar.google.com/scholar?q=Nestor+Rendon+University+of+Antioquia" target="_blank" rel="noopener noreferrer">Google Scholar</a>.
+            </p>
+
+            <h2>Blog</h2>
+            <p>
+                Some Articles and Notes about my work and interests.
+            </p>
+            <ul id="blog-list" class="list-none pl-0 space-y-2"></ul>
+            <div id="blog-article" hidden></div>
+            <p class="mt-8 opacity-80 text-[15px]">
+                Tip: for longer-form drafting, use Obsidian or VS Code with a Markdown preview, then drop the file into <code class="text-[15px]">posts/</code>.
+            </p>
+        </section>
+
+        <section id="contact" class="panel" aria-labelledby="contact-heading">
+            <h1 id="contact-heading">Contact</h1>
+            <p><strong>Nestor Rendon, PhD</strong> — AI researcher · Data science · LLM</p>
+            <p>Lugano, Switzerland</p>
+            <p><a href="mailto:nestor.rendon@udea.edu.co">nestor.rendon@udea.edu.co</a></p>
+            <p>
+                <a href="https://www.linkedin.com/in/nestor-rendon-617103156/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                ·
+                <a href="https://github.com/NestorRendon" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </p>
+            <p class="mt-4">
+                <a href="Nestor_Rendon_AI_Data_Science.pdf" download>Download CV (PDF)</a>
+            </p>
+        </section>
+
+        <section id="others" class="panel" aria-labelledby="others-heading">
+            <h1 id="others-heading">Others</h1>
+            <p>Instagram: <a href="https://www.instagram.com/davidevivre/" target="_blank" rel="noopener noreferrer">David E Vivre</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p><span id="footer-year">2026</span> — <span id="footer-name">Nestor Rendon</span></p>
     </footer>
 
     <script>
-        // Fade-in on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        (function () {
+            const tabs = ['main', 'datascience', 'ecoacoustics', 'music', 'blog', 'contact', 'others'];
+            const panels = Object.fromEntries(
+                tabs.map((id) => [id, document.getElementById(id)])
+            );
+            const headerTabs = document.querySelectorAll('.site-header .nav-tab[data-tab]');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+            function showTab(id) {
+                if (!tabs.includes(id)) id = 'main';
+                tabs.forEach((t) => {
+                    const p = panels[t];
+                    const on = t === id;
+                    if (p) p.classList.toggle('active', on);
+                });
+                headerTabs.forEach((btn) => {
+                    const on = btn.getAttribute('data-tab') === id;
+                    btn.setAttribute('aria-current', on ? 'true' : 'false');
+                });
+                if (history.replaceState) {
+                    history.replaceState(null, '', '#' + id);
+                } else {
+                    location.hash = id;
                 }
-            });
-        }, observerOptions);
-
-        // Observe all fade-in elements
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Trigger initial visibility for landing section
-        document.addEventListener('DOMContentLoaded', () => {
-            const landing = document.querySelector('section');
-            if (landing) {
-                setTimeout(() => {
-                    landing.classList.add('visible');
-                }, 100);
             }
+
+            function tabFromHash() {
+                const h = (location.hash || '#main').replace(/^#/, '');
+                return tabs.includes(h) ? h : 'main';
+            }
+
+            document.querySelectorAll('[data-tab]').forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showTab(btn.getAttribute('data-tab'));
+                });
+            });
+
+            window.addEventListener('hashchange', () => showTab(tabFromHash()));
+
+            showTab(tabFromHash());
+
+            const blogList = document.getElementById('blog-list');
+            const blogArticle = document.getElementById('blog-article');
+
+            function renderArticle(md, title) {
+                blogArticle.hidden = false;
+                if (typeof marked !== 'undefined') {
+                    const parse = typeof marked.parse === 'function' ? marked.parse.bind(marked) : marked;
+                    blogArticle.innerHTML = parse(md);
+                } else {
+                    blogArticle.innerHTML = '<pre>' + escapeHtml(md) + '</pre>';
+                }
+                blogArticle.setAttribute('aria-label', title || 'Article');
+                blogArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function escapeHtml(s) {
+                const d = document.createElement('div');
+                d.textContent = s;
+                return d.innerHTML;
+            }
+
+            async function loadBlogIndex() {
+                try {
+                    const res = await fetch('posts/manifest.json', { cache: 'no-store' });
+                    if (!res.ok) {
+                        blogList.innerHTML = '<li>Could not load <code>posts/manifest.json</code> (HTTP ' + res.status + '). Serve the site over http(s), not as a local file.</li>';
+                        return;
+                    }
+                    const items = await res.json();
+                    if (!Array.isArray(items)) {
+                        blogList.innerHTML = '<li><code>manifest.json</code> must be a JSON array of posts.</li>';
+                        return;
+                    }
+                    blogList.innerHTML = '';
+                    items.forEach((item) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = '#';
+                        a.textContent = item.title + (item.date ? ' — ' + item.date : '');
+                        a.addEventListener('click', async (e) => {
+                            e.preventDefault();
+                            try {
+                                const r = await fetch('posts/' + item.slug + '.md', { cache: 'no-store' });
+                                const md = await r.text();
+                                renderArticle(md, item.title);
+                            } catch (err) {
+                                blogArticle.hidden = false;
+                                blogArticle.textContent = 'Could not load this article.';
+                            }
+                        });
+                        li.appendChild(a);
+                        blogList.appendChild(li);
+                    });
+                } catch (_) {
+                    blogList.innerHTML =
+                        '<li>Blog index failed to load. Use a local server (e.g. <code>python3 -m http.server</code> from the site folder) or deploy to Vercel — opening <code>index.html</code> as a <code>file://</code> URL blocks <code>fetch</code>. If you use a server, check that <code>posts/manifest.json</code> is valid JSON (commas between objects).</li>';
+                }
+            }
+
+            loadBlogIndex();
+        })();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-spotify-oembed]').forEach(function (card) {
+                var apiUrl = card.getAttribute('data-spotify-oembed');
+                var cover = card.querySelector('.spotify-card-cover');
+                if (!apiUrl || !cover) return;
+                fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(apiUrl))
+                    .then(function (res) {
+                        return res.ok ? res.json() : Promise.reject();
+                    })
+                    .then(function (data) {
+                        if (!data.thumbnail_url) return;
+                        var img = document.createElement('img');
+                        img.src = data.thumbnail_url;
+                        img.alt = data.title || 'Spotify cover';
+                        img.loading = 'lazy';
+                        img.width = data.thumbnail_width || 300;
+                        img.height = data.thumbnail_height || 300;
+                        cover.appendChild(img);
+                    })
+                    .catch(function () {});
+            });
         });
     </script>
 </body>
